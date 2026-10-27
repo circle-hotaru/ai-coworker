@@ -1,0 +1,3 @@
+Source: https://github.com/m5stack/StackChan-BSP
+Commit: 8d4d6fc3b7a6be379c6317c45a02a30bff8c492e
+Only the ESP-IDF-compatible SCSCL serial subset is used; protocol code is retained; trailing whitespace was normalized for this source distribution.

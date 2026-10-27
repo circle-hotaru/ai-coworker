@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import {CollaborationGuard} from './collaboration.js';
+const guard=new CollaborationGuard();
+const ctx={agentId:'reviewer',sessionKey:'agent:reviewer:main',runId:'run-1'};
+const source='agent:operator:openai-user:task';
+const peer={prompt:`[Inter-session message] sourceSession=${source} sourceChannel=webchat sourceTool=sessions_send isUser=false\nquestion`,messages:[]};
+assert(guard.prepare(peer,ctx).appendContext.includes('自动'));
+const reverse={toolName:'sessions_send',params:{sessionKey:source,message:'my answer'}};
+assert.equal(guard.before(reverse,ctx).block,true);
+assert.equal(guard.before({...reverse,params:{sessionKey:'agent:coordinator:main',message:'needed data'}},ctx),undefined);
+assert.equal(guard.before({...reverse,toolName:'message'},ctx),undefined);
+assert.equal(guard.before(reverse,{...ctx,agentId:'coordinator'}),undefined);
+assert.equal(guard.before(reverse,{...ctx,runId:'another-run'}),undefined);
+guard.end(ctx);assert.equal(guard.before(reverse,ctx),undefined);
+const direct={...ctx,runId:'direct'};
+guard.prepare({prompt:'帮我问执行同事',messages:[{role:'user',content:peer.prompt}]},direct);
+assert.equal(guard.before(reverse,direct),undefined); // Old peer history cannot block new human input.
+guard.after({...reverse,result:{details:{status:'accepted'}}},direct);
+assert.equal(guard.before(reverse,direct).block,true);
+assert.equal(guard.before({...reverse,params:{...reverse.params,message:'a new question'}},direct),undefined);
+const failed={...ctx,runId:'failed'};guard.prepare({prompt:'ask a question'},failed);
+guard.after({...reverse,error:'network',result:{details:{status:'accepted'}}},failed);
+assert.equal(guard.before(reverse,failed),undefined);
+guard.after({...reverse,result:{details:{status:'error'}}},failed);
+assert.equal(guard.before(reverse,failed),undefined);
+let now=0;const expiring=new CollaborationGuard(()=>now);expiring.prepare(peer,ctx);now=31*60*1000;
+assert.equal(expiring.before(reverse,ctx),undefined);
+console.log('13 collaboration guard assertions passed');
+
+const researcherCtx={agentId:'researcher',sessionKey:'agent:researcher:main',runId:'researcher-peer'};
+guard.prepare(peer,researcherCtx);
+assert.equal(guard.before(reverse,researcherCtx).block,true);
+guard.end(researcherCtx);
+assert.equal(guard.before(reverse,researcherCtx),undefined);
+console.log('2 Researcher collaboration assertions passed');

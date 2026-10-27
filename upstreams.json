@@ -1,0 +1,10 @@
+{
+  "firmware": {
+    "url": "https://github.com/78/xiaozhi-esp32.git",
+    "commit": "49b4380b3faa0ceadd28a3e78aaf0f311c46c57e"
+  },
+  "bridge": {
+    "url": "https://github.com/xinnan-tech/xiaozhi-esp32-server.git",
+    "commit": "eb9dc8ca0fc8a30bc8afb0f302dcfc1578f76a7b"
+  }
+}

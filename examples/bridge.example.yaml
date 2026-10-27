@@ -1,0 +1,25 @@
+# Merge into the pinned upstream bridge's data/.config.yaml.
+# Replace bridge-host.local with a host reachable by your hardware.
+server:
+  ip: 0.0.0.0
+  port: 8000
+  http_port: 8003
+  websocket: ws://bridge-host.local:8000/xiaozhi/v1/
+  vision_explain: http://bridge-host.local:8003/mcp/vision/explain
+selected_module:
+  VAD: SileroVAD
+  ASR: FunASR
+  LLM: OpenClawLocal
+  TTS: EdgeTTS
+  Memory: nomem
+  Intent: nointent
+LLM:
+  OpenClawLocal:
+    type: openclaw_local
+    base_url: http://127.0.0.1:18789/v1
+    api_key: ''
+    device_map: ''
+    timeout: 1800
+    voice_instruction: 请用简洁自然的中文回答。使用真实工具完成任务，不假装执行。
+prompt_template: voice-bridge-prompt.txt
+enable_greeting: false

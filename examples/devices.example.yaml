@@ -1,0 +1,32 @@
+# Locally administered example MACs; replace with your own devices.
+version: 1
+devices:
+  "02:00:00:00:00:01":
+    name: Reviewer
+    agent_id: reviewer
+    conversation_id: reviewer-voice
+    interaction_mode: continuous
+    session_mode: explicit_new_task
+    activation_mode: button_only
+    push_enabled: true
+    firmware_label: Reviewer
+    tts_voice: zh-CN-YunxiNeural
+  "02:00:00:00:00:02":
+    name: Researcher
+    agent_id: researcher
+    conversation_id: researcher-voice
+    interaction_mode: continuous
+    session_mode: explicit_new_task
+    activation_mode: button_only
+    push_enabled: true
+    firmware_label: Researcher
+  "02:00:00:00:00:03":
+    name: Operator
+    agent_id: operator
+    conversation_id: operator-voice
+    interaction_mode: continuous
+    session_mode: explicit_new_task
+    activation_mode: button_only
+    push_enabled: true
+    dance_enabled: true
+    firmware_label: Operator

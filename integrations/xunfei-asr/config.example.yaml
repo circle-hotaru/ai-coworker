@@ -1,0 +1,32 @@
+selected_module:
+  ASR: XunfeiStreamASR
+ASR:
+  XunfeiStreamASR:
+    type: xunfei_stream
+    app_id: ''
+    api_key: ''
+    api_secret: ''
+    domain: spark_asr_v2
+    language: zh_cn
+    accent: mandarin
+    ltc: 1
+    dwa: wpgs
+    eos: 60000
+    output_dir: tmp/
+    context:
+      bias:
+        hotword:
+        - text: Reviewer
+          weight: 0.8
+        - text: Researcher
+          weight: 0.8
+        - text: Operator
+          weight: 0.8
+        - text: Coordinator
+          weight: 0.8
+        - text: OpenClaw
+          weight: 0.8
+        - text: ExampleProduct
+          weight: 0.8
+        - text: ExampleCompany
+          weight: 0.8

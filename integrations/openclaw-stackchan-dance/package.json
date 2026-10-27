@@ -1,0 +1,10 @@
+{
+  "name": "@ai-coworker/stackchan-dance",
+  "version": "1.0.1",
+  "type": "module",
+  "openclaw": {
+    "extensions": [
+      "./index.js"
+    ]
+  }
+}
